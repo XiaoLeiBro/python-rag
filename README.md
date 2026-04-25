@@ -27,7 +27,7 @@ uv sync
 ### 运行
 
 ```bash
-uv run python main.py
+uv run python rag.py
 ```
 
 ## 流程
