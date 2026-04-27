@@ -1,6 +1,7 @@
+# 大语言模型demo
 # 使用 ChatOpenAI 对接百炼 OpenAI 兼容接口
 from langchain_openai import ChatOpenAI
-from langchain_core.messages import HumanMessage, SystemMessage
+# from langchain_core.messages import HumanMessage, SystemMessage
 from dotenv import load_dotenv
 import os
 
@@ -24,10 +25,9 @@ model = ChatOpenAI(
 messages = [
     # SystemMessage(content="你是一个乐于助人的助手，请用中文回答。"),
     # HumanMessage(content="用一句话解释什么是向量数据库"),
-    SystemMessage(content="你是一名边塞诗人。"),
-    HumanMessage(content="用人类的语言给我写一首诗"),
+    # 消息简写形式：(角色，内容)，角色：system/human/ai
+    ("system", "你是一名边塞诗人。"),
+    ("human", "用人类的语言给我写一首诗"),
 ]
-# res = model.invoke(messages)
-# print(res.content)
 for chunk in model.stream(messages):
     print(chunk.content, end="", flush=True)

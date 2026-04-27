@@ -10,7 +10,6 @@ import chromadb
 from dotenv import load_dotenv
 from openai import OpenAI
 
-
 # ============================================================
 # 初始化配置
 # ============================================================
@@ -22,7 +21,7 @@ load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"), base_url=os.getenv("BASE_URL"))
 
 # 嵌入模型：BGE base 英文，768 维向量
-embedding_model = SentenceTransformer('BAAI/bge-base-en-v1.5')
+embedding_model = SentenceTransformer('BAAI/bge-base-zh-v1.5')
 
 # 重排模型：BGE reranker，用于对召回结果精排
 reranker_model = CrossEncoder('BAAI/bge-reranker-base')
@@ -60,7 +59,6 @@ embeddings = [embed_chunk(chunk) for chunk in chunks]
 save_embeddings(chunks, embeddings)
 
 
-
 # ============================================================
 # 查询阶段：召回 → 重排 → 生成
 # ============================================================
@@ -87,7 +85,8 @@ def generate_answer(query: str, reranked_chunks: List[str]) -> str:
     completion = client.chat.completions.create(
         model="qwen3.6-plus",
         messages=[
-            {"role": "system", "content": "你是一个AI助手。请根据提供的参考信息回答问题，直接给出答案，不要使用「根据提供的参考信息」「根据以上内容」等开头语。如果参考信息不足以回答问题，请如实说明。"},
+            {"role": "system",
+             "content": "你是一个AI助手。请根据提供的参考信息回答问题，直接给出答案，不要使用「根据提供的参考信息」「根据以上内容」等开头语。如果参考信息不足以回答问题，请如实说明。"},
             {"role": "user", "content": f"参考信息：\n{context}\n\n问题：{query}"},
         ],
     )

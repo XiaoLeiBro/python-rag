@@ -1,5 +1,5 @@
 [project]
-name = "rag"
+name = "langchain"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -9,6 +9,7 @@ dependencies = [
     "dashscope>=1.25.17",
     "langchain>=1.2.15",
     "langchain-community>=0.4.1",
+    "langchain-huggingface>=1.2.2",
     "langchain-openai>=1.2.1",
     "openai>=2.32.0",
     "python-dotenv>=1.2.2",

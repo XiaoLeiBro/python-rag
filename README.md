@@ -39,7 +39,7 @@
 
 ```bash
 git clone https://github.com/Xiaolei5035/python-rag.git
-cd python-rag
+cd python-demo
 uv sync
 ```
 
@@ -57,9 +57,9 @@ BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
 ### 运行
 
 ```bash
-uv run ragdemo/rag-demo.py          # RAG 完整流程
+uv run demo-demo/demo-demo.py          # RAG 完整流程
 uv run cosine-similarity/cosine-similarity.py  # 余弦相似度演示
-uv run langchain/chat-openai-demo.py           # LangChain 聊天模型
+uv run demo/llm-models.py           # LangChain 聊天模型
 ```
 
 ## RAG 流程
