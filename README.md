@@ -11,6 +11,7 @@
 │   ├── embedding-models.py              # HuggingFace 嵌入模型 + 余弦相似度检索
 │   ├── universal-prompt.py              # 通用提示词模板（zero-shot + LCEL 链式调用）
 │   ├── fewshot-prompt.py                # 样本提示词模板（few-shot）
+│   ├── chat-prompt.py                   # 聊天提示词模板（ChatPromptTemplate + 历史会话）
 │   └── rag/
 │       ├── rag.py                       # RAG 完整流程：索引 → 召回 → 重排 → 生成
 │       ├── cosine-similarity/
@@ -64,6 +65,7 @@ BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
 ```bash
 uv run demo/universal-prompt.py                           # 通用提示词模板（LCEL 链式调用）
 uv run demo/fewshot-prompt.py                            # 样本提示词模板（few-shot）
+uv run demo/chat-prompt.py                               # 聊天提示词模板（ChatPromptTemplate + 历史会话）
 uv run demo/llm-models.py                              # LangChain 聊天模型
 uv run demo/embedding-models.py                         # 嵌入模型 + 余弦相似度检索
 uv run demo/rag/rag.py                                  # RAG 完整流程
@@ -132,6 +134,29 @@ few_shot_prompt_template = FewShotPromptTemplate(
     suffix="基于前面的示例告诉我：{input_word}的反义词是？",
     input_variables=["input_word"],
 )
+```
+
+## 聊天提示词模板（ChatPromptTemplate）
+
+`demo/chat-prompt.py` 演示了 ChatPromptTemplate 的用法，通过 `MessagesPlaceholder` 植入任意数量的历史会话信息：
+
+- **from_messages** — 使用消息列表构建聊天提示词模板，支持 `system`、`human`、`ai` 等角色
+- **MessagesPlaceholder** — 声明一个可注入历史消息列表的占位符
+- **invoke + to_string** — 将历史数据注入模板后，转为可传入 LLM 的纯文本
+
+```python
+chat_prompt_template = ChatPromptTemplate.from_messages([
+    ("system", "你是一个AI助理。"),
+    MessagesPlaceholder("history"),
+    ("human", "向量数据库中，向量相似度的算法都有哪些？"),
+])
+
+history_data = [
+    ("human", "用一句话解释什么是向量数据库"),
+    ("ai", "向量数据库是一种用于存储和检索向量的数据库。")
+]
+
+prompt_text = chat_prompt_template.invoke({"history": history_data}).to_string()
 ```
 
 ## LangChain 聊天模型

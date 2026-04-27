@@ -1,4 +1,4 @@
-# 样本提示词模板：few-shot
+# 样本提示词模板：few-shot（支持基于膜拜注入任意数量的样本信息）
 
 from langchain_core.prompts import PromptTemplate, FewShotPromptTemplate
 from langchain_openai import ChatOpenAI
